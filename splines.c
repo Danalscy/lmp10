@@ -36,10 +36,13 @@ void write_spl (spline_t * spl, FILE * ouf){
 
 double value_spl (spline_t * spl, double x){
 	int i;
-	int st;
+	int st,L;
   	double suma=(spl->a[0])/2.0;
 	if((spl->n) % 2)
-		st=((spl->n)/2)-1;
+		L=((spl->n-1)/2);
+	else
+		L=(spl->n)/2;
+	st=L-1;
 	for(i=1;i<=st;i++)
 		suma+=spl->a[i]*cos(i*x) + spl->b[i]*sin(i*x);
 

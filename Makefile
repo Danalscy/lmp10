@@ -8,4 +8,4 @@ tryg.o: makespl.h points.h
 .PHONY: clean
 
 clean:
-	-rm *.o spl myplot aprox 
+	-rm *.o spl aprox 
