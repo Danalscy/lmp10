@@ -7,20 +7,25 @@ void make_spl (points_t * pts, spline_t * spl){
         	spl->y = pts->y;
 	
 		int i,j;
-		int m=0;
 		int n=pts->n;
+		int L;
 		if(n % 2)
-			m=((n-1)/2)-1;
+			L=((n-1)/2);
 		else
-			m=(n-1)/2;
-		for(j=1;j<=n;j++)
-			spl->a[0]+=spl->y[j-1]/n;
-		
-		for(i=1;i<m;i++){
-			for(j=0;j<n;j++){
-				spl->a[i]+=(2.0/n)*spl->y[j]*cos((2.0*M_PI*i*j)/n);	
-				spl->b[i]+=(2.0/n)*spl->y[j]*sin((2.0*M_PI*i*j)/n);
+			L=(n/2);
+		int st=L-1;
+		for( i=0; i<n; i++)
+                spl->a[0]+=(1.0/L)*pts->y[i];
+		spl->b[0]=0;
+
+		for(j=1;j<=st;j++){
+		spl->a[j]=0.0;
+		spl->b[j]=0.0;
+			for(i=0;i<n;i++){
+				spl->a[j]+=(1.0/L)*spl->y[i]*cos((M_PI*i*j)/L);	
+				spl->b[j]+=(1.0/L)*spl->y[i]*sin((M_PI*i*j)/L);
 			}
 		}
+		
 	}
  }
