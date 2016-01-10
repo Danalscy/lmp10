@@ -6,10 +6,9 @@
 typedef struct {
 		int n;
 		double *x;
-		double *f;
-		double *f1;
-		double *f2;
-		double *f3;
+		double *y;
+		double *a;
+		double *b;
 } spline_t;
 
 int alloc_spl( spline_t *spl, int n );
