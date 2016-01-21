@@ -7,8 +7,12 @@
 int alloc_spl (spline_t * spl, int n){
   	spl->n = n;
   	return MALLOC_FAILED (spl->x, spl->n)
-    	|| MALLOC_FAILED (spl->y, spl->n)
-    	|| MALLOC_FAILED (spl->a, spl->n)
+    	|| MALLOC_FAILED (spl->f, spl->n)
+    	|| MALLOC_FAILED (spl->f1, spl->n)
+    	|| MALLOC_FAILED (spl->f2, spl->n)
+    	|| MALLOC_FAILED (spl->f3, spl->n)
+    	|| MALLOC_FAILED (spl->f4, spl->n)
+	|| MALLOC_FAILED (spl->a, spl->n)
     	|| MALLOC_FAILED (spl->b, spl->n);
 }
 
@@ -21,7 +25,7 @@ int read_spl (FILE * inf, spline_t * spl){
     		return 1;
 
   	for (i = 0; i < spl->n; i++)
-   		if (fscanf(inf, "%lf %lf %lf %lf", spl->x + i, spl->y + i, spl->a + i, spl->b + i) != 4)
+   		if (fscanf(inf, "%lf %lf %lf %lf %lf %lf %lf %lf", spl->x + i, spl->f + i,  spl->f1 + i,  spl->f2 + i,  spl->f3 + i,spl->f4 + i, spl->a + i, spl->b + i) != 8)
       		return 1;
 
   return 0;
@@ -31,20 +35,23 @@ void write_spl (spline_t * spl, FILE * ouf){
   	int i;
   	fprintf (ouf, "%d\n", spl->n);
   	for (i = 0; i < spl->n; i++)
-  	fprintf (ouf, "%g %g %g %g\n", spl->x[i], spl->y[i], spl->a[i], spl->b[i]);
+  	fprintf (ouf, "%g %g %g %g %g %g %g %g\n", spl->x[i], spl->f[i],  spl->f1[i], spl->f2[i], spl->f3[i],spl->f4[i],spl->a[i], spl->b[i]);
 }
 
 double value_spl (spline_t * spl, double x){
-	int i;
-	int st,L;
-  	double suma=(spl->a[0])/2.0;
-	if((spl->n) % 2)
-		L=((spl->n-1)/2);
-	else
-		L=(spl->n)/2;
-	st=L-1;
-	for(i=1;i<=st;i++)
-		suma+=spl->a[i]*cos(i*x) + spl->b[i]*sin(i*x);
 
-	return suma;
+int i;
+  double dx;
+
+  for (i = spl->n - 1; i > 0; i--)
+    if (spl->x[i] < x)
+      break;
+
+  dx = x - spl->x[i];
+
+  return spl->f[i]
+       	+ dx * spl->f1[i]
+        + dx * dx / 2 *  spl->f2[i]
+        + dx * dx * dx / 6 * spl->f3[i] 
+	+ dx * dx * dx * dx / 24 *spl->f4[i];
  } 

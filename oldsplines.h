@@ -1,16 +1,12 @@
-#ifndef SPLINES_H
-#define SPLINES_H
+#ifndef OLDSPLINES_H
+#define OLDSPLINES_H
 
 #include <stdio.h>
 
 typedef struct {
 		int n;
 		double *x;
-		double *f;
-		double *f1;
-		double *f2;
-		double *f3;
-		double *f4;
+		double *y;
 		double *a;
 		double *b;
 } spline_t;

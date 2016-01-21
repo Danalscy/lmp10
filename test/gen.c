@@ -4,9 +4,10 @@
 #include <time.h>
 
 double fun( double x ) {double r= ((double)rand() - RAND_MAX/2.0)/RAND_MAX/5;
-		//return (1+r)*(sin(x)-cos(3*x));				
+		//return (1+r)*(sin(x)-cos(x));				
 		//return (1+r)*(sin(x));
-		return (1+r)*sin(cos(x-1)+5);				
+		//return (1+r)*tan(x);
+		return (1+r)*(-x *x-tan(x)*3);				
 }
 
 int main( int argc, char **argv ) {
